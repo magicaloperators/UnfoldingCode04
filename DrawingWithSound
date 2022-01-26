@@ -1,0 +1,56 @@
+import processing.sound.*;
+AudioIn input;
+Amplitude loudness;
+color main = #F26767;
+color black = #000000;
+color white = #f1f1f1f1;
+
+float x = 0;
+float y = 0;
+
+void setup() {
+  size(680, 900);
+  background(white);
+
+  input = new AudioIn(this, 0);
+  input.start();
+  loudness = new Amplitude(this);
+
+  loudness.input(input);
+  frameRate(10);
+
+  noStroke();
+}
+
+
+void draw() {
+
+  float volume = loudness.analyze();
+  println(volume);
+  int size = int(map(volume, 0, 0.5, 0, 400));
+
+  noStroke();
+  fill(white);
+  for (int i = 0; i < width; i+= 20) {
+  }
+  ellipseMode(CENTER);
+  blendMode(DIFFERENCE);
+  pushMatrix();
+  rectMode(CENTER);
+  //translate(width/2, height/2);
+  //rotate(size);
+  rect(x+size, y-size, size/2, 1);
+  strokeWeight(2);
+  popMatrix();
+  //translate(width/2, height/2);
+  ellipse(x+size, y+size, size/8, size/8);
+  x+= 32.8;
+  if (x> width) {
+    x= 0;
+    y+= 32.8;
+
+    if (y> height) {
+      y=0;
+    }
+  }
+}
